@@ -1,4 +1,11 @@
 ;; 00. Basic key bindings
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (load-file ".emacs.d/inits/basic_key_bindings.el")
 
 ;; 01. Misc. options
@@ -10,11 +17,17 @@
 ;; 02. Options for C mode
 (load-file ".emacs.d/inits/c_mode.el")
 
-;; 03. Highlight symbols
+;; 03. Highlight
 (load-file ".emacs.d/inits/highlight_symbol.el")
 (load-file ".emacs.d/inits/breadcrumb.el")
+(load-file ".emacs.d/inits/symbol_overlay.el")
 
+;; 04. Copy
 (load-file ".emacs.d/inits/thing_edit.el")
+
+;; 05. Complete
+(load-file ".emacs.d/inits/company_mode.el")
+
 
 ;; Auto-complete-mode
 (require 'auto-complete-config)
@@ -131,3 +144,22 @@ header"
 	   auto-mode-alist))
 
 (autoload 'cmake-mode "~/.emacs.d/lisp/cmake-mode.el" t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(custom-safe-themes
+   (quote
+    ("400994f0731b2109b519af2f2d1f022e7ced630a78890543526b9342a3b04cf1" default)))
+ '(menu-bar-mode nil)
+ '(package-selected-packages (quote (company magit jedi)))
+ '(scroll-bar-mode nil)
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
