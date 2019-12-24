@@ -1,38 +1,24 @@
-;; 00. Basic key bindings
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
-(load-file ".emacs.d/inits/basic_key_bindings.el")
-
-;; 01. Misc. options
-(load-file ".emacs.d/inits/misc_options.el")
+(load-file "~/.emacs.d/inits/basics.el")
+(load-file "~/.emacs.d/inits/misc_options.el")
 
 ;; Add .emacs.d/lisp to load-path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
-;; 02. Options for C mode
-(load-file ".emacs.d/inits/c_mode.el")
+;; C mode
+(load-file "~/.emacs.d/inits/c_mode.el")
 
-;; 03. Highlight
-(load-file ".emacs.d/inits/highlight_symbol.el")
-(load-file ".emacs.d/inits/breadcrumb.el")
-(load-file ".emacs.d/inits/symbol_overlay.el")
+;; Highlight
+(load-file "~/.emacs.d/inits/highlight_symbol.el")
+(load-file "~/.emacs.d/inits/breadcrumb.el")
+(load-file "~/.emacs.d/inits/symbol_overlay.el")
 
-;; 04. Copy
-(load-file ".emacs.d/inits/thing_edit.el")
+;; Copy
+(load-file "~/.emacs.d/inits/thing_edit.el")
 
-;; 05. Complete
-(load-file ".emacs.d/inits/company_mode.el")
+;; Auto-Complete
+(load-file "~/.emacs.d/inits/company_mode.el")
+(load-file "~/.emacs.d/inits/auto_complete.el")
 
-
-;; Auto-complete-mode
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
-(ac-config-default)
 
 ;; load another TAGS file
 (global-set-key (kbd "C-c M-.") 'visit-tags-table)
@@ -163,3 +149,9 @@ header"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
