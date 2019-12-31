@@ -12,26 +12,6 @@
 ;;(global-set-key (kbd "<C-return>") 'newline-and-indent)
 (global-set-key (kbd "<C-tab>") 'c-indent-line-or-region)
 
-;; GUI options: no menu bar, no tool bar
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(custom-safe-themes
-   (quote
-    ("400994f0731b2109b519af2f2d1f022e7ced630a78890543526b9342a3b04cf1" "86d4a623c8d77c2f7db3007e58a3947c013b3bd983578db640f56ed785d5c657" default)))
- '(menu-bar-mode nil)
- '(scroll-bar-mode nil) ;(quote right))
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 ;; Org-mode
 ;; Set insert-subheading
 (add-hook 'org-mode-hook
@@ -78,3 +58,50 @@
 ;(add-hook 'python-mode-hook 'jedi:setup)
 
 ;(setq jedi:complete-on-dot t)
+
+;; Python hook for setting tab width
+(add-hook 'python-mode-hook
+          (function (lambda () 
+                      (setq python-indent-offset 4))))
+
+;; smex: M-x enhancement for Emacs, built on top of ido
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
+;; livedown: view markdown files lively
+;; (custom-set-variables
+;;  '(livedown-autostart nil) ; automatically open preview when opening markdown files
+;;  '(livedown-open t)        ; automatically open the browser window
+;;  '(livedown-port 1337)     ; port for livedown server
+;;  '(livedown-browser nil))  ; browser to use
+;; (require 'livedown)
+
+;; ;; markdown-preview-mode: minor mode to preview markdown output as you save
+;; (require 'markdown-preview-mode)
+
+;; ivy: a generic completion mechanism for Emacs (ref: https://github.com/abo-abo/swiper)
+(add-to-list 'load-path "~/.emacs.d/swiper/")
+;(ivy-mode 1)
+;; counsel: a collection of Ivy-enhanced versions of common Emacs commands
+(require 'counsel)
+(global-set-key (kbd "C-x C-S-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-f") 'find-file)
+;(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+;; swiper: an alternative to isearch that uses ivy to show an overview of all matches
+(global-set-key (kbd "C-S-s") 'swiper)
+(global-set-key (kbd "C-s") 'isearch-forward)
+;; ivy-smex: an ivy interface to smex
+;(require 'ivy-smex)
+;(global-set-key (kbd "M-x") 'ivy-smex)
+
+;; switch-window (ref: https://github.com/dimitri/switch-window)
+(require 'switch-window)
+(global-set-key (kbd "C-x o") 'switch-window)
+;; more convenient window switching
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "C-S-o") 'previous-multiframe-window)
+
+;; cc-mode
+;;(add-to-list 'load-path "~/.emacs.d/lisp/cc-mode-5.33")
+;;(require 'cc-mode)

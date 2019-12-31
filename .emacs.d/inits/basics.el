@@ -7,6 +7,7 @@
 
 ;; Help key binding
 (global-set-key (kbd "C-?") 'help)
+(global-set-key (kbd "C-x ?") 'help)
 
 ;; Jump to next/previous couple lines
 (defun jump-next-couple-lines ()
@@ -99,3 +100,5 @@
 (define-key global-map (kbd "C-+") 'text-scale-increase)
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
+;; Turn off backup files
+(setq make-backup-files nil)
