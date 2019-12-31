@@ -2,7 +2,7 @@
 (add-to-list 'load-path (concat user-emacs-dir "/lisp/async"))
 (add-to-list 'load-path (concat user-emacs-dir "/lisp/helm"))
 (require 'helm-config)
-(helm-mode 1)
+;(helm-mode 1)
 
 ;; make helm buffer always at bottom
 (defvar spacemacs-helm-display-help-buffer-regexp '("\\*.*Helm.*Help.*\\*"))
