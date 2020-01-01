@@ -102,3 +102,7 @@
 
 ;; Turn off backup files
 (setq make-backup-files nil)
+
+;; Switch windows
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "C-S-o") 'previous-multiframe-window)
