@@ -4,6 +4,8 @@
 ;; Set Ctrl-h and Alt-h as backspace
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\M-h" 'backward-kill-word)
+(define-key isearch-mode-map (kbd "C-h") 'isearch-delete-char)
+(define-key isearch-mode-map (kbd "M-h") 'backward-kill-word)
 
 ;; Help key binding
 (global-set-key (kbd "C-?") 'help)
@@ -100,9 +102,39 @@
 (define-key global-map (kbd "C-+") 'text-scale-increase)
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
-;; Turn off backup files
+;; Disable backup & auto-save files
 (setq make-backup-files nil)
+(setq auto-save-default nil)
 
 ;; Switch windows
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-S-o") 'previous-multiframe-window)
+
+;; Bind C-j to newline (with indent)
+(global-set-key (kbd "C-j") 'newline-and-indent)
+
+;; Compile
+(global-set-key (kbd "C-c p") 'compile)
+
+;; Eval buffer
+(global-set-key (kbd "C-x C-e") 'eval-buffer)
+
+;; TAGS: load another TAGS file
+(global-set-key (kbd "C-c M-.") 'visit-tags-table)
+
+;; org-mode
+(require 'org)
+(define-key org-mode-map (kbd "M-h") 'backward-kill-word)
+(setq org-cycle-separator-lines 1)
+;;; checkbox for headers
+(defun org-toggle-headine-checkbox ()
+  "Toggle checkbox marker in headlines."
+  (interactive)
+  (when (and (org-at-heading-p)
+             (save-excursion
+               (beginning-of-line)
+               (looking-at "\\*+ +\\[\\(?1:[X ]?\\)\\]")))
+    (let ((state (string= (match-string 1) "X")))
+      (save-excursion
+        (replace-match (format "%s" (if state " " "X")) nil t nil 1)))))
+(define-key org-mode-map (kbd "C-c c") 'org-toggle-headine-checkbox)
