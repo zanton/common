@@ -1,0 +1,222 @@
+.DEFAULT_GOAL := all
+
+magit_ver=2.90.1
+wget_opts=--no-check-certificate
+
+## Init
+init_dir = init.d
+$(init_dir):
+	mkdir -p $@
+
+init_scripts  = init.el
+init_scripts += $(init_dir)/basics.el
+init_scripts += $(init_dir)/misc.el
+init_scripts += $(init_dir)/c_mode.el
+init_scripts += $(init_dir)/markdown_mode.el
+init_scripts += $(init_dir)/cuda_mode.el
+init_scripts += $(init_dir)/cmake_mode.el
+init_scripts += $(init_dir)/lua_mode.el
+init_scripts += $(init_dir)/highlight_symbol.el
+init_scripts += $(init_dir)/breadcrumb.el
+init_scripts += $(init_dir)/symbol_overlay.el
+init_scripts += $(init_dir)/highlight_indent_guides.el
+init_scripts += $(init_dir)/auto_highlight_symbol.el
+init_scripts += $(init_dir)/volatile_highlights.el
+init_scripts += $(init_dir)/bm.el
+init_scripts += $(init_dir)/company_mode.el
+init_scripts += $(init_dir)/auto_complete.el
+init_scripts += $(init_dir)/magit.el
+init_scripts += $(init_dir)/helm.el
+init_scripts += $(init_dir)/helm_swoop.el
+init_scripts += $(init_dir)/helm_gtags.el
+init_scripts += $(init_dir)/thing_edit.el
+init_scripts += $(init_dir)/quickrun.el
+init_scripts += $(init_dir)/popwin.el
+init_scripts += $(init_dir)/flycheck.el
+init_scripts += $(init_dir)/undo_tree.el
+init_scripts += $(init_dir)/irony.el
+
+$(init_scripts):
+	wget https://raw.githubusercontent.com/zanton/emacs.d/master/$@ $(wget_opts) -O $@
+
+## Packages
+lisp_dir = lisp
+$(lisp_dir):
+	mkdir -p $@
+
+pkgs  = # nothing yet
+pkgs += bm
+pkgs += company-mode
+pkgs += auto-complete
+pkgs += magit-$(magit_ver)
+pkgs += helm
+pkgs += flycheck
+pkgs += irony
+
+## Hightlight
+bm: $(lisp_dir)/bm/bm.el
+
+$(lisp_dir)/bm/bm.el: name=bm-20190807.1217
+$(lisp_dir)/bm/bm.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+## Completion
+company-mode: $(lisp_dir)/company-mode/company.el
+
+$(lisp_dir)/company-mode/company.el: name=company-20200110.929
+$(lisp_dir)/company-mode/company.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+auto-complete: $(lisp_dir)/auto-complete/auto-complete.el
+
+$(lisp_dir)/auto-complete/auto-complete.el: name=auto-complete-20170125.245
+$(lisp_dir)/auto-complete/auto-complete.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+## Magit
+magit-$(magit_ver): dash with-editor ghub graphql treepy magit-popup $(lisp_dir)/magit-$(magit_ver)/lisp/magit.el
+
+$(lisp_dir)/magit-$(magit_ver)/lisp/magit.el:
+	wget http://deb.debian.org/debian/pool/main/m/magit/magit_$(magit_ver).orig.tar.gz ${wget_opts} -O magit-$(magit_ver).tar.gz
+	tar xzvf magit-$(magit_ver).tar.gz
+	mkdir -p $(lisp_dir)/magit-$(magit_ver); cp -r magit-$(magit_ver)/* $(lisp_dir)/magit-$(magit_ver)/
+	rm -rf magit-$(magit_ver).tar.gz magit-$(magit_ver)
+	echo "LOAD_PATH  = -L $(PWD)/$(lisp_dir)/magit-$(magit_ver)/lisp" > $(lisp_dir)/magit-$(magit_ver)/config.mk
+	echo "LOAD_PATH += -L $(PWD)/$(lisp_dir)" >> $(lisp_dir)/magit-$(magit_ver)/config.mk
+	echo "LOAD_PATH += -L $(PWD)/$(lisp_dir)/dash" >> $(lisp_dir)/magit-$(magit_ver)/config.mk
+	echo "LOAD_PATH += -L $(PWD)/$(lisp_dir)/with-editor" >> $(lisp_dir)/magit-$(magit_ver)/config.mk
+	echo "LOAD_PATH += -L $(PWD)/$(lisp_dir)/ghub" >> $(lisp_dir)/magit-$(magit_ver)/config.mk
+	echo "LOAD_PATH += -L $(PWD)/$(lisp_dir)/graphql" >> $(lisp_dir)/magit-$(magit_ver)/config.mk
+	echo "LOAD_PATH += -L $(PWD)/$(lisp_dir)/treepy" >> $(lisp_dir)/magit-$(magit_ver)/config.mk
+	cd $(lisp_dir)/magit-$(magit_ver); make
+
+dash: $(lisp_dir)/dash/dash.el
+
+$(lisp_dir)/dash/dash.el: name=dash-20191109.1327
+$(lisp_dir)/dash/dash.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+with-editor: $(lisp_dir)/with-editor/with-editor.el
+
+$(lisp_dir)/with-editor/with-editor.el: name=with-editor-20200102.2147
+$(lisp_dir)/with-editor/with-editor.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+ghub: $(lisp_dir)/ghub/ghub.el
+
+$(lisp_dir)/ghub/ghub.el: name=ghub-20200108.1233
+$(lisp_dir)/ghub/ghub.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+graphql: $(lisp_dir)/graphql/graphql.el
+
+$(lisp_dir)/graphql/graphql.el:
+	mkdir -p $(dir $@)
+	wget https://raw.githubusercontent.com/vermiculus/graphql.el/master/graphql.el ${wget_opts} -O $@
+
+treepy: $(lisp_dir)/treepy/treepy.el
+
+$(lisp_dir)/treepy/treepy.el:
+	mkdir -p $(dir $@)
+	wget https://raw.githubusercontent.com/volrath/treepy.el/master/treepy.el ${wget_opts} -O $@
+
+magit-popup: $(lisp_dir)/magit-popup.el
+
+$(lisp_dir)/magit-popup.el:
+	wget https://raw.githubusercontent.com/magit/magit-popup/master/magit-popup.el $(wget_opts) -O $@
+
+## Helm
+helm: async $(lisp_dir)/helm/helm.el
+
+$(lisp_dir)/helm/helm.el: name=helm-3.5.0
+$(lisp_dir)/helm/helm.el:
+	wget https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/helm/3.5.0-3/helm_3.5.0.orig.tar.xz ${wget_opts} -O ${name}.tar.xz
+	tar xvf ${name}.tar.xz
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar.xz
+	cd $(dir $@); EMACSLOADPATH="$(PWD)/$(lisp_dir)/async:" make
+
+async: $(lisp_dir)/async/async.el
+
+$(lisp_dir)/async/async.el: name=async-20200113.1745
+$(lisp_dir)/async/async.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+## Utility
+flycheck: $(lisp_dir)/flycheck/flycheck.el
+
+$(lisp_dir)/flycheck/flycheck.el: name=flycheck-20191126.2142
+$(lisp_dir)/flycheck/flycheck.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+irony: $(lisp_dir)/irony-mode/irony.el
+
+$(lisp_dir)/irony-mode/irony.el: name=irony-20191009.2139
+$(lisp_dir)/irony-mode/irony.el:
+	wget https://melpa.org/packages/${name}.tar ${wget_opts} -O ${name}.tar
+	tar xvf ${name}.tar
+	mkdir -p $(dir $@); cp -r ${name}/* $(dir $@)
+	rm -rf ${name} ${name}.tar
+
+## System pkgs
+global:
+	wget http://tamacom.com/global/global-6.6.2.tar.gz -O global-6.6.2.tar.gz
+	tar xzvf global-6.6.2.tar.gz
+	rm global-6.6.2.tar.gz
+	cd global-6.6.2/; ./configure --prefix=${HOME}/local; make; make install
+
+cppcheck:
+	wget http://archive.ubuntu.com/ubuntu/pool/universe/c/cppcheck/cppcheck_1.82.orig.tar.gz -O cppcheck_1.82.orig.tar.gz
+	tar xzvf cppcheck_1.82.orig.tar.gz
+	rm cppcheck_1.82.orig.tar.gz
+	mkdir -p cppcheck-1.82/build
+	cd cppcheck-1.82/build; cmake .. -DBUILD_GUI=OFF
+	cd cppcheck-1.82/build; cmake --build .
+
+## all
+all: $(init_dir) $(init_scripts) $(lisp_dir) $(pkgs)
+	sed -i 's/^.*markdown_mode.el.*/;&/' init.el
+	sed -i 's/^.*flycheck.el.*/;&/' init.el
+	sed -i 's/^.*irony.el.*/;&/' init.el
+	sed -i "/\(require 'company\)/a \(delete 'company-clang company-backends\)" init.d/company_mode.el
+
+llvm:
+	wget http://releases.llvm.org/9.0.0/llvm-9.0.0.src.tar.xz
+	tar xvf llvm-9.0.0.src.tar.xz
+	cd llvm-9.0.0.src/
+	mkdir build
+	cd build
+	cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/local -DCMAKE_PREFIX_PATH=$HOME/local -DCMAKE_BUILD_TYPE=Release -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="AVR" -DLLVM_ENABLE_LIBXML2=OFF
+	make install
+
+clang:
+	wget http://releases.llvm.org/9.0.0/cfe-9.0.0.src.tar.xz
+	tar xvf cfe-9.0.0.src.tar.xz
+	cd cfe-9.0.0.src/
+	mkdir build
+	cd build
+	cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/local -DCMAKE_PREFIX_PATH=$HOME/local -DCMAKE_BUILD_TYPE=Release
